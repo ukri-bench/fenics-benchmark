@@ -19,6 +19,10 @@ class FenicsGpuBenchmark(CMakePackage, CudaPackage, ROCmPackage):
     depends_on("hip", when="+rocm")
     depends_on("cuda", when="+cuda")
 
+    conflicts("+cuda", when="+rocm", msg="Cannot build for both ROCm and CUDA")
+
+    variant("fp32", default=False, description="Build for float32 scalar type")
+
     depends_on("c", type="build")
     depends_on("cxx", type="build")
 
@@ -33,4 +37,5 @@ class FenicsGpuBenchmark(CMakePackage, CudaPackage, ROCmPackage):
 
     def cmake_args(self):
         return [self.define("amd", "+rocm" in self.spec),
-                self.define("nvidia", "+cuda" in self.spec)]
+                self.define("nvidia", "+cuda" in self.spec),
+                self.define("SCALAR_TYPE", "float32" if "+fp32" in self.spec else "float64")]

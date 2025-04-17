@@ -31,4 +31,4 @@ and for AMD use:
 `spack add fenics-gpu-bencmark+rocm`
 
 followed by `spack install`. Once installed, the tests can be run as
-described in the main README.
+described in the main README. For 32-bit floating point builds, add the flag `+fp32` to the spack specification.
