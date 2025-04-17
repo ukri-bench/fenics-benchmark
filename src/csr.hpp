@@ -6,7 +6,6 @@
 
 #include <dolfinx.h>
 #include <dolfinx/fem/dolfinx_fem.h>
-#include <dolfinx/fem/petsc.h>
 #include <dolfinx/la/MatrixCSR.h>
 
 #include <thrust/device_vector.h>
