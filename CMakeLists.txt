@@ -21,7 +21,7 @@ if(amd)
 # MI250X = gfx90a
 # MI300X = gfx942
 # Radeon7900 = gfx1100
-  set(CMAKE_HIP_ARCHITECTURES native)
+  set(CMAKE_HIP_ARCHITECTURES gfx90a)
   enable_language(HIP)
 elseif(nvidia)
   # See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
