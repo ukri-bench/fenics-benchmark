@@ -8,8 +8,8 @@ from spack.package import *
 class FenicsGpuBenchmark(CMakePackage, CudaPackage, ROCmPackage):
     "A weak-scaling performance test for the FEniCS Finite Element Package with GPU support"
 
-    homepage = "https://github.com/ukri-bench/fenics-gpu-benchmark"
-    git = "https://github.com/ukri-bench/fenics-gpu-benchmark.git"
+    homepage = "https://github.com/ukri-bench/fenics-benchmark"
+    git = "https://github.com/ukri-bench/fenics-benchmark.git"
 
     depends_on("fenics-dolfinx@main")
     depends_on("py-fenics-ffcx@main", type="build")
