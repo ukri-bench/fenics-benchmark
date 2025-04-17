@@ -18,7 +18,7 @@ scaling by choosing the number of degrees of freedom per process.
 `cmake`, followed by `make`. It is necessary to choose between AMD and
 NVIDIA builds, see the cmake options, below.
 
-* Alternatively, use spack to build the benchmark and all dependencies, using the instructions in [spack](/spack/INSTALL).
+* Alternatively, use spack to build the benchmark and all dependencies, using the instructions in [spack](/spack/INSTALL.md).
 
 ### CMake options
 
