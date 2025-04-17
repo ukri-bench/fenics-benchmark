@@ -22,15 +22,26 @@ NVIDIA builds, see the cmake options, below.
 
 ### CMake options
 
-* `-Damd=ON` builds using HIP
-* `-Dnvidia=ON` builds using CUDA
+* `-DHIP_ARCH=[target]` builds using HIP
+* `-DCUDA_ARCH=[target]` builds using CUDA
 * `-DSCALAR_TYPE=float32` will build a 32-bit version
 
-e.g. to build for NVIDIA with float32
+The following `CUDA_ARCH=[target]` types have been tested for the NVIDIA GPUs listed:
+* `80` - A100
+* `89` - RTX6000Ada
+* `90` - GH200
+
+The following `HIP_ARCH=[target]` types have been tested for the AMD GPUs listed:
+* `gfx90a` - MI250X
+* `gfx942` - MI300X
+* `gfx1100` - Radeon7900
+* `native` - autodetect, if GPU available during build
+
+e.g. to build for NVIDIA A100 with float32
 ```
 mkdir build
 cd build
-cmake -Dnvidia=ON -DSCALAR_TYPE=float32 ..
+cmake -DCUDA_ARCH=80 -DSCALAR_TYPE=float32 ..
 make
 ```
 

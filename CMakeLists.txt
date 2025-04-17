@@ -6,21 +6,33 @@ endif()
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-option(nvidia "Build for NVidia GPUs" off)
-option(amd "Build for AMD GPUs"	off)
-
 set(HIP_ARCH "none" CACHE STRING "Set the AMD GPU target")
-set(CUDA_ARCH "none" CACHE STRING "Set the NVIDIA GPU compute level")
+set(CUDA_ARCH "none" CACHE STRING "Set the NVIDIA GPU architecture")
+
+if (NOT HIP_ARCH STREQUAL "none")
+set(amd ON)
+endif()
+
+if (NOT CUDA_ARCH STREQUAL "none")
+set(nvidia ON)
+endif()
+
+if(nvidia)
+  message(STATUS "Compiling for NVIDIA GPUs with arch ${CUDA_ARCH}")
+elseif(amd)
+  message(STATUS "Compiling for AMD GPUs with target ${HIP_ARCH}")
+elseif(nvidia AND amd)
+  message(FATAL_ERROR "You cannot select both AMD and NVIDIA GPU builds. Only set either CUDA_ARCH or HIP_ARCH ")
+else()
+  message(FATAL_ERROR "No target selected for the build. Please set either CUDA_ARCH or HIP_ARCH")
+endif()
 
 # Scalar type
 set(SCALAR_TYPE "float64" CACHE STRING "Set the floating point type")
 
-if(nvidia AND amd)
-  message(FATAL_ERROR "You cannot select both amd and nvidia GPU builds. Only select one option:  nvidia, amd")
-endif()
-
 project(mat_free C CXX)
 if(amd)
+# autodetect = native
 # MI250X = gfx90a
 # MI300X = gfx942
 # Radeon7900 = gfx1100
@@ -34,14 +46,6 @@ elseif(nvidia)
   set(CMAKE_CUDA_ARCHITECTURES ${CUDA_ARCH})
   set(CMAKE_CUDA_STANDARD 20)
   enable_language(CUDA)
-endif()
-
-if(nvidia)
-  message(STATUS "Compiling for NVIDIA GPUs")
-elseif(amd)
-  message(STATUS "Compiling for AMD GPUs")
-else()
-  message(FATAL_ERROR "No target selected for the build. Please select one of the options: nvidia, amd")
 endif()
 
 set(CMAKE_CXX_FLAGS "-Ofast -march=native ${CMAKE_CXX_FLAGS} -DNDEBUG -Wall")

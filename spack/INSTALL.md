@@ -22,13 +22,13 @@ running on, including specifying compilers and external libraries
 documentation](https://spack.readthedocs.io/en/latest/) for details on
 how to do this.
 
-Add the benchmark to the environment, e.g. for NVIDIA use:
+Add the benchmark to the environment, e.g. for NVIDIA A100 use:
 
-`spack add fenics-gpu-benchmark+cuda`
+`spack add fenics-gpu-benchmark+cuda cuda_target=80`
 
-and for AMD use:
+and for AMD MI250X use:
 
-`spack add fenics-gpu-bencmark+rocm`
+`spack add fenics-gpu-bencmark+rocm amdgpu_target=gfx90a`
 
 followed by `spack install`. Once installed, the tests can be run as
 described in the main README. For 32-bit floating point builds, add the flag `+fp32` to the spack specification.
