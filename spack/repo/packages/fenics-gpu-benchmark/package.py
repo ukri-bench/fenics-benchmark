@@ -37,5 +37,7 @@ class FenicsGpuBenchmark(CMakePackage, CudaPackage, ROCmPackage):
 
     def cmake_args(self):
         return [self.define("amd", "+rocm" in self.spec),
+                self.define("HIP_ARCH", spec.variants["amdgpu_target"].value),
                 self.define("nvidia", "+cuda" in self.spec),
+                self.define("CUDA_ARCH", spec.variants["cuda_arch"].value),
                 self.define("SCALAR_TYPE", "float32" if "+fp32" in self.spec else "float64")]

@@ -9,6 +9,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(nvidia "Build for NVidia GPUs" off)
 option(amd "Build for AMD GPUs"	off)
 
+set(HIP_ARCH "none" CACHE STRING "Set the AMD GPU target")
+set(CUDA_ARCH "none" CACHE STRING "Set the NVIDIA GPU compute level")
+
 # Scalar type
 set(SCALAR_TYPE "float64" CACHE STRING "Set the floating point type")
 
@@ -21,14 +24,14 @@ if(amd)
 # MI250X = gfx90a
 # MI300X = gfx942
 # Radeon7900 = gfx1100
-  set(CMAKE_HIP_ARCHITECTURES gfx90a)
+  set(CMAKE_HIP_ARCHITECTURES ${HIP_ARCH})
   enable_language(HIP)
 elseif(nvidia)
   # See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
 # A100 = 80
 # RTX6000Ada = 89
 # GH200 = 90
-  set(CMAKE_CUDA_ARCHITECTURES 80 89 90)
+  set(CMAKE_CUDA_ARCHITECTURES ${CUDA_ARCH})
   set(CMAKE_CUDA_STANDARD 20)
   enable_language(CUDA)
 endif()
