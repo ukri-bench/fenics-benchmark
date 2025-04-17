@@ -14,9 +14,11 @@ scaling by choosing the number of degrees of freedom per process.
 
 ## Building
 
-Use cmake to build, by creating a `build` subdirectory and using
+* Use cmake to build, by creating a `build` subdirectory and using
 `cmake`, followed by `make`. It is necessary to choose between AMD and
 NVIDIA builds, see the cmake options, below.
+
+* Alternatively, use spack to build the benchmark and all dependencies, using the instructions in [spack](/spack/INSTALL).
 
 ### CMake options
 
