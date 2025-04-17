@@ -32,3 +32,7 @@ and for AMD MI250X use:
 
 followed by `spack install`. Once installed, the tests can be run as
 described in the main README. For 32-bit floating point builds, add the flag `+fp32` to the spack specification.
+
+### Note
+
+The spack installation is under development. If you have any problems, please report them in the issue tracker.
