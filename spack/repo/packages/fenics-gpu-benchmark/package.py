@@ -17,6 +17,7 @@ class FenicsGpuBenchmark(CMakePackage, CudaPackage, ROCmPackage):
     depends_on("py-fenics-ufl@main", type="build")
     depends_on("mpi")
     depends_on("hip", when="+rocm")
+    depends_on("cuda", when="+cuda")
 
     depends_on("c", type="build")
     depends_on("cxx", type="build")
@@ -31,4 +32,5 @@ class FenicsGpuBenchmark(CMakePackage, CudaPackage, ROCmPackage):
     version("main", tag="main")
 
     def cmake_args(self):
-        return [self.define("amd", True)]
+        return [self.define("amd", "+rocm" in self.spec),
+                self.define("nvidia", "+cuda" in self.spec)]
