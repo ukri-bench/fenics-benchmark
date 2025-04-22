@@ -28,10 +28,7 @@ class FenicsGpuBenchmark(CMakePackage, CudaPackage, ROCmPackage):
 
     with when("+rocm"):
         depends_on("rocm-core")
-        depends_on("rocsparse")
-        depends_on("rocrand")
         depends_on("rocthrust")
-        depends_on("rocprim")
 
     version("main", tag="main")
 
