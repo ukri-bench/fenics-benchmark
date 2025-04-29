@@ -24,7 +24,7 @@ how to do this.
 
 Add the benchmark to the environment, e.g. for NVIDIA A100 use:
 
-`spack add fenics-gpu-benchmark+cuda cuda_target=80`
+`spack add fenics-gpu-benchmark+cuda cuda_arch=80`
 
 and for AMD MI250X use:
 
