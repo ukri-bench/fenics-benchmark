@@ -65,6 +65,7 @@ jobs:
           ls -alh ../
 
       - name: Build
+        shell: spack-bash {0}
         run: |
           spack env create bench-ci
           spack env activate bench-ci
