@@ -66,5 +66,5 @@ jobs:
           spack env activate bench-ci
           ls -alh
           spack repo add ./spack
-          spack add bench-dolfinx+cuda cuda_target=80
+          spack add bench-dolfinx+cuda cuda_arch=80
           spack install
