@@ -51,9 +51,15 @@ jobs:
 
       - name: Build
         run: |
+          echo "Check files"
+          ls -alh
+
+      - name: Build
+        run: |
           . ./spack/share/spack/setup-env.sh
           spack env create bench-ci
           spack env activate bench-ci
+          ls -alh
           spack repo add ./spack
           spack add bench-dolfinx+cuda cuda_target=80
           spack install
