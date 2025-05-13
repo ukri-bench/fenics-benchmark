@@ -40,7 +40,7 @@ jobs:
       - name: Get Spack
         uses: actions/checkout@v4
         with:
-          path: ./spack
+          path: ./spack-package
           repository: spack/spack
 
       - name: Install Spack requirements
@@ -56,7 +56,7 @@ jobs:
 
       - name: Build
         run: |
-          . ./spack/share/spack/setup-env.sh
+          . ./spack-package/share/spack/setup-env.sh
           spack env create bench-ci
           spack env activate bench-ci
           ls -alh
