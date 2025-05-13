@@ -4,7 +4,7 @@
 
 from spack.package import *
 
-class BenchmarkDOLFINx(CMakePackage, CudaPackage, ROCmPackage):
+class BenchDolfinx(CMakePackage, CudaPackage, ROCmPackage):
     "A benchmark using DOLFInx."
 
     homepage = "https://github.com/ukri-bench/ukri-bench"
