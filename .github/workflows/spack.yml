@@ -39,18 +39,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get Spack
-        uses: actions/checkout@v4
-        with:
-          path: ./spack-package
-          repository: spack/spack
-
-
       - name: Install Spack requirements
         run: |
           apt-get -y update
           apt-get install -y bzip2 curl file git gzip make patch python3-minimal tar unzip xz-utils
           apt-get install -y g++ gfortran  # compilers
+
+      - name: Set up Spack
+        uses: spack/setup-spack@v2
+        with:
+          ref: develop # Spack version (examples: develop, releases/v0.23)
+          buildcache: true    # Configure oci://ghcr.io/spack/github-actions-buildcache
+          color: true         # Force color output (SPACK_COLOR=always)
+          path: spack         # Where to clone Spack      # - name: Get Spack
+      #   uses: actions/checkout@v4
+      #   with:
+      #     path: ./spack-package
+      #     repository: spack/spack
 
       - name: Debug list
         run: |
