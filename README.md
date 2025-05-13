@@ -45,25 +45,25 @@ C++, CUDA, HIP, MPI.
 2. Add a benchmark configurations to the environment.
 
     CPU:
-    ```
+    ```bash
     spack add bench-dolfinx
     ```
     CUDA:
-    ```
+    ```bash
     spack add bench-dolfinx+cuda cuda_target=80
     ```
     where `cuda_target=80` is replaced by the appropriate CUDA target
     version.
 
     HIP:
-    ```
+    ```bash
     spack add bench-dolfinx+rocm amdgpu_target=gfx90a
     ```
     where `amdgpu_target=gfx90a` is replaced by the appropriate HIP
     target version.
 
 3. Build
-    ```
+    ```bash
     spack install
     ```
 
