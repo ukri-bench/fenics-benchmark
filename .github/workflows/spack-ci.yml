@@ -26,7 +26,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ubuntu:24.04
+    # container: ubuntu:24.04
 
     # env:
     #   OMPI_ALLOW_RUN_AS_ROOT: 1
@@ -39,28 +39,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Spack requirements
-        run: |
-          apt-get -y update
-          apt-get install -y bzip2 curl file git gzip make patch python3-minimal tar unzip xz-utils
-          apt-get install -y g++ gfortran  # compilers
-
-      - name: Get Spack
-        uses: actions/checkout@v4
-        with:
-          path: ./spack-src
-          repository: spack/spack
-    # - name: Set up Spack
-      #   uses: spack/setup-spack@v2
+      # - name: Install Spack requirements
+      #   run: |
+      #     apt-get -y update
+      #     apt-get install -y bzip2 curl file git gzip make patch python3-minimal tar unzip xz-utils
+      #     apt-get install -y g++ gfortran  # compilers
+      # - name: Get Spack
+      #   uses: actions/checkout@v4
       #   with:
-      #     ref: develop # Spack version (examples: develop, releases/v0.23)
-      #     buildcache: true    # Configure oci://ghcr.io/spack/github-actions-buildcache
-      #     color: true         # Force color output (SPACK_COLOR=always)
-      #     path: spack-src         # Where to clone Spack      # - name: Get Spack
+      #     path: ./spack-src
+      #     repository: spack/spack
 
+      - name: Set up Spack
+        uses: spack/setup-spack@v2
+        with:
+          ref: develop # Spack version (examples: develop, releases/v0.23)
+          buildcache: true    # Configure oci://ghcr.io/spack/github-actions-buildcache
+          color: true         # Force color output (SPACK_COLOR=always)
+          path: spack-src         # Where to clone Spack      # - name: Get Spack
+
+      # . ./spack-src/share/spack/setup-env.sh
       - name: Build (HIP)
+        shell: spack-bash {0}
         run: |
-          . ./spack-src/share/spack/setup-env.sh
           spack env create bench-ci
           spack env activate bench-ci
           spack repo add ./spack
