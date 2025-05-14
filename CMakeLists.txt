@@ -1,20 +1,26 @@
 cmake_minimum_required(VERSION 3.20)
 
+project(bench_dolfinx C CXX)
+
 if(POLICY CMP0167)
-  cmake_policy(SET CMP0167 NEW)  # Boost CONFIG mode
+  cmake_policy(SET CMP0167 NEW) # Boost CONFIG mode
 endif()
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(HIP_ARCH "none" CACHE STRING "Set the AMD GPU target")
-set(CUDA_ARCH "none" CACHE STRING "Set the NVIDIA GPU architecture")
+set(HIP_ARCH
+    "none"
+    CACHE STRING "Set the AMD GPU target")
+set(CUDA_ARCH
+    "none"
+    CACHE STRING "Set the NVIDIA GPU architecture")
 
-if (NOT HIP_ARCH STREQUAL "none")
-set(amd ON)
+if(NOT HIP_ARCH STREQUAL "none")
+  set(amd ON)
 endif()
 
-if (NOT CUDA_ARCH STREQUAL "none")
-set(nvidia ON)
+if(NOT CUDA_ARCH STREQUAL "none")
+  set(nvidia ON)
 endif()
 
 if(nvidia)
@@ -22,27 +28,30 @@ if(nvidia)
 elseif(amd)
   message(STATUS "Compiling for AMD GPUs with target ${HIP_ARCH}")
 elseif(nvidia AND amd)
-  message(FATAL_ERROR "You cannot select both AMD and NVIDIA GPU builds. Only set either CUDA_ARCH or HIP_ARCH ")
+  message(
+    FATAL_ERROR
+      "You cannot select both AMD and NVIDIA GPU builds. Only set either CUDA_ARCH or HIP_ARCH "
+  )
 else()
-  message(FATAL_ERROR "No target selected for the build. Please set either CUDA_ARCH or HIP_ARCH")
+  message(
+    FATAL_ERROR
+      "No target selected for the build. Please set either CUDA_ARCH or HIP_ARCH"
+  )
 endif()
 
 # Scalar type
-set(SCALAR_TYPE "float64" CACHE STRING "Set the floating point type")
+set(SCALAR_TYPE
+    "float64"
+    CACHE STRING "Set the floating point type")
 
-project(mat_free C CXX)
 if(amd)
-# autodetect = native
-# MI250X = gfx90a
-# MI300X = gfx942
-# Radeon7900 = gfx1100
+  # autodetect = native MI250X = gfx90a MI300X = gfx942 Radeon7900 = gfx1100
   set(CMAKE_HIP_ARCHITECTURES ${HIP_ARCH})
   enable_language(HIP)
 elseif(nvidia)
-  # See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
-# A100 = 80
-# RTX6000Ada = 89
-# GH200 = 90
+  # See
+  # https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
+  # A100 = 80 RTX6000Ada = 89 GH200 = 90
   set(CMAKE_CUDA_ARCHITECTURES ${CUDA_ARCH})
   set(CMAKE_CUDA_STANDARD 20)
   enable_language(CUDA)
@@ -51,7 +60,7 @@ endif()
 set(CMAKE_CXX_FLAGS "-Ofast -march=native ${CMAKE_CXX_FLAGS} -DNDEBUG -Wall")
 set(CMAKE_C_FLAGS "-Ofast -march=native ${CMAKE_C_FLAGS} -DNDEBUG -Wall")
 
-if (SCALAR_TYPE STREQUAL "float32")
+if(SCALAR_TYPE STREQUAL "float32")
   add_definitions(-DSCALAR_TYPE=float)
 elseif(SCALAR_TYPE STREQUAL "float64")
   add_definitions(-DSCALAR_TYPE=double)
@@ -59,17 +68,25 @@ else()
   message(FATAL_ERROR "Scalar type ${SCALAR_TYPE} not supported.")
 endif()
 
-if (CMAKE_HIP_COMPILER_VERSION GREATER_EQUAL 18) # See https://rocm.docs.amd.com/projects/llvm-project/en/docs-6.2.1/LLVM/clang/html/ReleaseNotes.html#c-specific-potentially-breaking-changes
+if(CMAKE_HIP_COMPILER_VERSION GREATER_EQUAL 18)
+
+# See
+# https://rocm.docs.amd.com/projects/llvm-project/en/docs-6.2.1/LLVM/clang/html/ReleaseNotes.html#c-specific-potentially-breaking-changes
   set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} -fclang-abi-compat=17")
 endif()
-set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} -std=c++20 -Wall -Ofast -DNDEBUG -munsafe-fp-atomics")
+set(CMAKE_HIP_FLAGS
+    "${CMAKE_HIP_FLAGS} -std=c++20 -Wall -Ofast -DNDEBUG -munsafe-fp-atomics")
 
-if (DEFINED ENV{CRAYPE_VERSION})
-   message("Detected CrayPE - adding MPI flags")
-   set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} -Ofast -march=native -I/opt/cray/pe/mpich/8.1.27/ofi/gnu/9.1/include")
+if(DEFINED ENV{CRAYPE_VERSION})
+  message("Detected CrayPE - adding MPI flags")
+  set(CMAKE_HIP_FLAGS
+      "${CMAKE_HIP_FLAGS} -Ofast -march=native -I/opt/cray/pe/mpich/8.1.27/ofi/gnu/9.1/include"
+  )
 endif()
 
-set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -std=c++20 -O3 -DNDEBUG --extended-lambda --expt-relaxed-constexpr")
+set(CMAKE_CUDA_FLAGS
+    "${CMAKE_CUDA_FLAGS} -std=c++20 -O3 -DNDEBUG --extended-lambda --expt-relaxed-constexpr"
+)
 
 # ------------------------------------------------------------------------------
 # General configuration
@@ -86,19 +103,20 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_custom_command(
   OUTPUT poisson.c
-  COMMAND ffcx --scalar_type ${SCALAR_TYPE} --sum_factorization ${CMAKE_CURRENT_SOURCE_DIR}/poisson.py
+  COMMAND ffcx --scalar_type ${SCALAR_TYPE} --sum_factorization
+          ${CMAKE_CURRENT_SOURCE_DIR}/poisson.py
   VERBATIM
   DEPENDS poisson.py
-  COMMENT "Compile poisson.py using FFCx"
-)
+  COMMENT "Compile poisson.py using FFCx")
 
 if(amd)
-    find_package(rocthrust REQUIRED CONFIG)
+  find_package(rocthrust REQUIRED CONFIG)
 endif()
 
 add_executable(${PROJECT_NAME} main.cpp poisson.c)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
-target_link_libraries(${PROJECT_NAME} dolfinx Basix::basix Boost::program_options)
+target_link_libraries(${PROJECT_NAME} dolfinx Basix::basix
+                      Boost::program_options)
 if(amd)
   target_link_libraries(${PROJECT_NAME} roc::rocthrust)
 endif()

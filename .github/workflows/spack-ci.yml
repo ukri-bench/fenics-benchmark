@@ -37,11 +37,7 @@ jobs:
     #   DOLFINX_RELEASE_VERSION: "${{ github.event_name != 'workflow_dispatch' && '0.9.0' || github.event.inputs.dolfinx_version }}"
 
     steps:
-      - name: Get Spack
-        uses: actions/checkout@v4
-        with:
-          path: ./spack
-          repository: spack/spack
+      - uses: actions/checkout@v4
 
       - name: Install Spack requirements
         run: |
@@ -49,11 +45,28 @@ jobs:
           apt-get install -y bzip2 curl file git gzip make patch python3-minimal tar unzip xz-utils
           apt-get install -y g++ gfortran  # compilers
 
-      - name: Build
+      - name: Set up Spack
+        uses: spack/setup-spack@v2
+        with:
+          ref: develop # Spack version (examples: develop, releases/v0.23)
+          buildcache: true    # Configure oci://ghcr.io/spack/github-actions-buildcache
+          color: true         # Force color output (SPACK_COLOR=always)
+          path: spack-src         # Where to clone Spack      # - name: Get Spack
+
+      - name: Build (HIP)
+        shell: spack-bash {0}
         run: |
-          . ./spack/share/spack/setup-env.sh
           spack env create bench-ci
           spack env activate bench-ci
           spack repo add ./spack
-          spack add bench-dolfinx+cuda cuda_target=80
-          spack install
+          spack add fenics-gpu-bencmark+rocm amdgpu_target=gfx90a
+          spack -v install -j 4
+
+      # - name: Build (CUDA)
+      #   shell: spack-bash {0}
+      #   run: |
+      #     spack env create bench-ci
+      #     spack env activate bench-ci
+      #     spack repo add ./spack
+      #     spack add bench-dolfinx+cuda cuda_arch=80
+      #     spack -v install -j 4
