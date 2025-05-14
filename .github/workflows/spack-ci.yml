@@ -59,20 +59,21 @@ jobs:
           path: spack-src         # Where to clone Spack      # - name: Get Spack
 
       # . ./spack-src/share/spack/setup-env.sh
-      - name: Build (HIP)
-        shell: spack-bash {0}
-        run: |
-          spack env create bench-ci
-          spack env activate bench-ci
-          spack repo add ./spack
-          spack add bench-dolfinx+rocm amdgpu_target=gfx90a
-          spack -v install -j 4 --fail-fast
 
-      # - name: Build (CUDA)
+      # - name: Build (HIP)
       #   shell: spack-bash {0}
       #   run: |
       #     spack env create bench-ci
       #     spack env activate bench-ci
       #     spack repo add ./spack
-      #     spack add bench-dolfinx+cuda cuda_arch=80
-      #     spack -v install -j 4
+      #     spack add bench-dolfinx+rocm amdgpu_target=gfx90a
+      #     spack -v install -j 4 --fail-fast
+
+      - name: Build (CUDA)
+        shell: spack-bash {0}
+        run: |
+          spack env create bench-ci
+          spack env activate bench-ci
+          spack repo add ./spack
+          spack add bench-dolfinx+cuda cuda_arch=80
+          spack -v install -j 4 --fail-fast
