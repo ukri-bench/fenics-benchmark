@@ -50,7 +50,7 @@ jobs:
         with:
           path: ./spack-src
           repository: spack/spack
-                # - name: Set up Spack
+    # - name: Set up Spack
       #   uses: spack/setup-spack@v2
       #   with:
       #     ref: develop # Spack version (examples: develop, releases/v0.23)
@@ -59,8 +59,8 @@ jobs:
       #     path: spack-src         # Where to clone Spack      # - name: Get Spack
 
       - name: Build (HIP)
-        shell: spack-bash {0}
         run: |
+          . ./spack-src/share/spack/setup-env.sh
           spack env create bench-ci
           spack env activate bench-ci
           spack repo add ./spack
