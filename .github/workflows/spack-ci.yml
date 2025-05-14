@@ -59,7 +59,7 @@ jobs:
           spack env create bench-ci
           spack env activate bench-ci
           spack repo add ./spack
-          spack add fenics-gpu-bencmark+rocm amdgpu_target=gfx90a
+          spack add bench-dolfinx+rocm amdgpu_target=gfx90a
           spack -v install -j 4
 
       # - name: Build (CUDA)
