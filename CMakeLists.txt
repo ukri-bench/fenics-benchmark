@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
+project(bench_dolfinx C CXX)
+
 if(POLICY CMP0167)
   cmake_policy(SET CMP0167 NEW)  # Boost CONFIG mode
 endif()
@@ -10,11 +12,11 @@ set(HIP_ARCH "none" CACHE STRING "Set the AMD GPU target")
 set(CUDA_ARCH "none" CACHE STRING "Set the NVIDIA GPU architecture")
 
 if (NOT HIP_ARCH STREQUAL "none")
-set(amd ON)
+  set(amd ON)
 endif()
 
 if (NOT CUDA_ARCH STREQUAL "none")
-set(nvidia ON)
+  set(nvidia ON)
 endif()
 
 if(nvidia)
@@ -30,19 +32,18 @@ endif()
 # Scalar type
 set(SCALAR_TYPE "float64" CACHE STRING "Set the floating point type")
 
-project(mat_free C CXX)
 if(amd)
-# autodetect = native
-# MI250X = gfx90a
-# MI300X = gfx942
-# Radeon7900 = gfx1100
+  # autodetect = native
+  # MI250X = gfx90a
+  # MI300X = gfx942
+  # Radeon7900 = gfx1100
   set(CMAKE_HIP_ARCHITECTURES ${HIP_ARCH})
   enable_language(HIP)
 elseif(nvidia)
   # See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
-# A100 = 80
-# RTX6000Ada = 89
-# GH200 = 90
+  # A100 = 80
+  # RTX6000Ada = 89
+  # GH200 = 90
   set(CMAKE_CUDA_ARCHITECTURES ${CUDA_ARCH})
   set(CMAKE_CUDA_STANDARD 20)
   enable_language(CUDA)
@@ -93,7 +94,7 @@ add_custom_command(
 )
 
 if(amd)
-    find_package(rocthrust REQUIRED CONFIG)
+  find_package(rocthrust REQUIRED CONFIG)
 endif()
 
 add_executable(${PROJECT_NAME} main.cpp poisson.c)
