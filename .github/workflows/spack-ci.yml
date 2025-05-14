@@ -52,23 +52,21 @@ jobs:
           buildcache: true    # Configure oci://ghcr.io/spack/github-actions-buildcache
           color: true         # Force color output (SPACK_COLOR=always)
           path: spack-src         # Where to clone Spack      # - name: Get Spack
-      #   uses: actions/checkout@v4
-      #   with:
-      #     path: ./spack-package
-      #     repository: spack/spack
 
-      - name: Debug list
-        run: |
-          echo "Check files"
-          ls -alh
-          echo "Check files (1)"
-          ls -alh ../
-
-      - name: Build
+      - name: Build (HIP)
         shell: spack-bash {0}
         run: |
           spack env create bench-ci
           spack env activate bench-ci
           spack repo add ./spack
-          spack add bench-dolfinx+cuda cuda_arch=80
+          spack add fenics-gpu-bencmark+rocm amdgpu_target=gfx90a
           spack -v install -j 4
+
+      # - name: Build (CUDA)
+      #   shell: spack-bash {0}
+      #   run: |
+      #     spack env create bench-ci
+      #     spack env activate bench-ci
+      #     spack repo add ./spack
+      #     spack add bench-dolfinx+cuda cuda_arch=80
+      #     spack -v install -j 4
