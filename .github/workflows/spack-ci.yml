@@ -60,7 +60,7 @@ jobs:
           spack env activate bench-ci
           spack repo add ./spack
           spack add bench-dolfinx+rocm amdgpu_target=gfx90a
-          spack -v install -j 4
+          spack -v install -j 4 --fail-fast
 
       # - name: Build (CUDA)
       #   shell: spack-bash {0}
