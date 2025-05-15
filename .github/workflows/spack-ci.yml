@@ -26,17 +26,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    container: ubuntu:24.04
     permissions:
       packages: write
-    # container: ubuntu:24.04
     steps:
       - uses: actions/checkout@v4
 
-      # - name: Install Spack requirements
-      #   run: |
-      #     apt-get -y update
-      #     apt-get install -y bzip2 curl file git gzip make patch python3-minimal tar unzip xz-utils
-      #     apt-get install -y g++ gfortran  # compilers
+      - name: Install Spack requirements
+        run: |
+          apt-get -y update
+          apt-get install -y bzip2 curl file git gzip make patch python3-minimal tar unzip xz-utils
+          apt-get install -y g++ gfortran  # compilers
       # - name: Get Spack
       #   uses: actions/checkout@v4
       #   with:
