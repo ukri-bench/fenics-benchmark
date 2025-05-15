@@ -1,7 +1,8 @@
 spack:
   view: /opt/view
   specs:
-  - python@3.11
+  - fenics-dolfinx
+  # - python@3.11
 
   config:
     install_tree:
