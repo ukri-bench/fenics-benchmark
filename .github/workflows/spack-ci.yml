@@ -72,11 +72,11 @@ jobs:
         #   spack add bench-dolfinx+cuda cuda_arch=80
         #   spack -v install -j 4 --fail-fast
 
-      - name: Run
-        shell: spack-bash {0}
-        run: |
-          spack env activate .
-          python3 -c 'print("hello world")'
+      # - name: Run
+      #   shell: spack-bash {0}
+      #   run: |
+      #     spack env activate .
+      #     python3 -c 'print("hello world")'
 
       - name: Push packages and update index
         env:
