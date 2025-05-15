@@ -25,17 +25,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
+    permissions:
+      packages: write
     # container: ubuntu:24.04
-
-    # env:
-    #   OMPI_ALLOW_RUN_AS_ROOT: 1
-    #   OMPI_ALLOW_RUN_AS_ROOT_CONFIRM: 1
-    #   PRTE_MCA_rmaps_default_mapping_policy: :oversubscribe   # Newer OpenMPI
-    #   OMPI_MCA_rmaps_base_oversubscribe: true                 # Older OpenMPI
-
-    #   DOLFINX_RELEASE_VERSION: "${{ github.event_name != 'workflow_dispatch' && '0.9.0' || github.event.inputs.dolfinx_version }}"
-
     steps:
       - uses: actions/checkout@v4
 
@@ -71,9 +64,23 @@ jobs:
 
       - name: Build (CUDA)
         shell: spack-bash {0}
+        run: spack -e . install
+        # run: |
+        #   spack env create bench-ci
+        #   spack env activate bench-ci
+        #   spack repo add ./spack
+        #   spack add bench-dolfinx+cuda cuda_arch=80
+        #   spack -v install -j 4 --fail-fast
+
+      - name: Run
+        shell: spack-bash {0}
         run: |
-          spack env create bench-ci
-          spack env activate bench-ci
-          spack repo add ./spack
-          spack add bench-dolfinx+cuda cuda_arch=80
-          spack -v install -j 4 --fail-fast
+          spack env activate .
+          python3 -c 'print("hello world")'
+
+      - name: Push packages and update index
+        env:
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
+        if: ${{ !cancelled() }}
