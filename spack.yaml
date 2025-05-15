@@ -1,7 +1,7 @@
 spack:
   view: /opt/view
   specs:
-  - py-fenics-dolfinx
+  - py-fenics-dolfinx@main
   # - python@3.11
 
   config:

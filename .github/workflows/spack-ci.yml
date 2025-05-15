@@ -64,7 +64,7 @@ jobs:
 
       - name: Build (CUDA)
         shell: spack-bash {0}
-        run: spack -e . install
+        run: spack -e . install -j 4 --fail-fast
         # run: |
         #   spack env create bench-ci
         #   spack env activate bench-ci
