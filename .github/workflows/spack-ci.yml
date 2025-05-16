@@ -78,9 +78,9 @@ jobs:
           spack env activate .
           python3 -c 'import dolfinx; print(dolfinx.__version__)'
 
-      - name: Push packages and update index
-        env:
-          GITHUB_USER: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
-        if: ${{ !cancelled() }}
+      # - name: Push packages and update index
+      #   env:
+      #     GITHUB_USER: ${{ github.actor }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
+      #   if: ${{ !cancelled() }}
