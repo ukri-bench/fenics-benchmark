@@ -8,7 +8,7 @@ spack:
   config:
     install_tree:
       root: /opt/spack
-      padded_length: 256
+      padded_length: 64
 
   packages:
     all:
