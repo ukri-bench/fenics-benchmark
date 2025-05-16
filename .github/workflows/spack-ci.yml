@@ -64,7 +64,13 @@ jobs:
 
       - name: Build (CUDA)
         shell: spack-bash {0}
-        run: spack -verbose -e . install -j 4 --fail-fast
+        # run: spack -verbose -e . install -j 4 --fail-fast
+        run: |
+          spack env create bench-ci spak.yaml
+          spack env activate bench-ci
+          spack repo add ./spack
+          spack py-fenics-dolfinx@main
+          spack -v install -j 4 --fail-fast
         # run: |
         #   spack env create bench-ci
         #   spack env activate bench-ci

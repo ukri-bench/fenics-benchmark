@@ -1,8 +1,9 @@
 spack:
   view: /opt/view
-  specs:
-  - py-fenics-dolfinx@main
-  # - python@3.11
+  # specs:
+  # # - py-fenics-dolfinx@main
+  # - bench-dolfinx+cuda cuda_arch=80
+  # # - python@3.11
 
   config:
     install_tree:
