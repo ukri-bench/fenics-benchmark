@@ -66,16 +66,20 @@ jobs:
       #     spack add bench-dolfinx+rocm amdgpu_target=gfx90a
       #     spack -v install -j 4 --fail-fast
 
-      - name: Build (CUDA)
+      - name: Install
         shell: spack-bash {0}
-        # run: spack -verbose -e . install -j 4 --fail-fast
-        run: |
-          spack env create bench-ci spack.yaml
-          spack env activate bench-ci
-          spack repo add ./spack
-          spack add gmake
-          spack concretize
-          spack -v install -j 4 --fail-fast
+        run: spack -e . install
+
+      # - name: Build (CUDA)
+      #   shell: spack-bash {0}
+      #   # run: spack -verbose -e . install -j 4 --fail-fast
+      #   run: |
+      #     spack env create bench-ci spack.yaml
+      #     spack env activate bench-ci
+      #     spack repo add ./spack
+      #     spack add gmake
+      #     spack concretize
+      #     spack -v install -j 4 --fail-fast
         # spack add fenics-dolfinx@main partitioners=scotch
         # run: |
         #   spack env create bench-ci
