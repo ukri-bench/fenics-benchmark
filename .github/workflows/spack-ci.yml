@@ -73,8 +73,10 @@ jobs:
           spack env create bench-ci spack.yaml
           spack env activate bench-ci
           spack repo add ./spack
-          spack add fenics-dolfinx@main partitioners=scotch
+          spack add gmake
+          spack concretize
           spack -v install -j 4 --fail-fast
+        # spack add fenics-dolfinx@main partitioners=scotch
         # run: |
         #   spack env create bench-ci
         #   spack env activate bench-ci
