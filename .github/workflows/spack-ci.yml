@@ -90,7 +90,7 @@ jobs:
           spack -e . add bench-dolfinx+rocm amdgpu_target=gfx90a
           spack -e . concretize
           spack -e . compilers
-          # spack -e . install -v -j 4 --fail-fast
+          spack -e . install -v -j 4 --fail-fast
 
       # - name: Install (CUDA)
       #   shell: spack-bash {0}
