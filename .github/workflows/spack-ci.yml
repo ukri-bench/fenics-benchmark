@@ -34,16 +34,15 @@ jobs:
     permissions:
       packages: write
     steps:
-      # - name: Make space on disk
-      #   run: |
-      #     sudo rm -rf /usr/local/lib/android
-      #     sudo rm -rf /opt/ghc
-      #     sudo rm -rf /usr/local/.ghcup
-      #     sudo apt-get remove -y '^aspnetcore-.*' '^dotnet-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-chrome-stable firefox powershell mono-devel
-      #     sudo apt-get remove -y '^clang.*' '^llvm.*'
-      #     sudo apt-get remove -y '^perl.*'
-      #     sudo apt-get -y update
-      #     sudo apt-get install -y gcc g++ gfortran  # compilers
+      - name: Make space on disk
+        run: |
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/.ghcup
+          sudo apt-get remove -y '^aspnetcore-.*' '^dotnet-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-chrome-stable firefox powershell mono-devel
+          sudo apt-get remove -y '^clang.*' '^llvm.*'
+          sudo apt-get -y update
+          sudo apt-get install -y gcc g++ gfortran  # compilers
 
       # - name: Free Disk Space (Ubuntu)
       #   uses: jlumbroso/free-disk-space@main
