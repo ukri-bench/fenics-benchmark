@@ -83,6 +83,8 @@ jobs:
         shell: spack-bash {0}
         run: |
           spack -e . repo add ./spack
+          spack -e . external find
+          cat spack.yaml
           spack -e . install -v -j 6 --fail-fast
 
       # - name: Push packages and update index
