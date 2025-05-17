@@ -19,17 +19,17 @@ spack:
     #   buildable: false
     #   externals:
     #   - spec: hip@6.3.3
-    #     prefix: /opt/rocm-6.4.6/hip
+    #     prefix: /opt/rocm/hip
     # rocm-core:
     #   buildable: false
     #   externals:
     #   - spec: rocm-core@6.3.3
-    #     prefix: /opt/rocm-6.4.6/rocm-core
+    #     prefix: /opt/rocm/rocm-core
     # rocthrust:
     #   buildable: false
     #   externals:
     #   - spec: rocthrust@6.3.3
-    #     prefix: /opt/rocm-6.4.6/rocthrust
+    #     prefix: /opt/rocm/rocthrust
 
   mirrors:
     local-buildcache:
