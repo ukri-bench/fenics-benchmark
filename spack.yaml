@@ -1,7 +1,7 @@
 spack:
   view: /opt/view
-  specs:
-    - gmake
+  # specs:
+  #   - gmake
     # - py-fenics-dolfinx@main
   # - bench-dolfinx+cuda cuda_arch=80
   # # - python@3.11
