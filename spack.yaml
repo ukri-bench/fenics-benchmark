@@ -1,7 +1,7 @@
 spack:
   view: /opt/view
-  specs:
-  - bench-dolfinx+rocm
+  # specs:
+  # - bench-dolfinx+rocm
 
   config:
     install_tree:
