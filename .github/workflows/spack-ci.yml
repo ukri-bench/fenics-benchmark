@@ -15,7 +15,41 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  build_cuda:
+  # build_cuda:
+  #   runs-on: ubuntu-24.04
+  #   permissions:
+  #     packages: write
+  #   steps:
+  #     - name: Make space on disk
+  #       run: |
+  #         sudo rm -rf /usr/local/lib/android
+  #         sudo rm -rf /opt/ghc
+  #         sudo rm -rf /usr/local/.ghcup
+  #         sudo apt-get remove -y '^aspnetcore-.*' '^dotnet-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-chrome-stable firefox powershell mono-devel
+
+  #     - uses: actions/checkout@v4
+
+  #     - name: Set up Spack
+  #       uses: spack/setup-spack@v2
+  #       with:
+  #         ref: develop        # Spack version (examples: develop, releases/v0.23)
+  #         color: true         # Force color output (SPACK_COLOR=always)
+  #         path: spack-src     # Where to clone Spack      # - name: Get Spack
+
+  #     - name: Install
+  #       shell: spack-bash {0}
+  #       run: |
+  #         spack -e . repo add ./spack
+  #         spack -e . install -v -j 6 --fail-fast
+
+  #     - name: Push packages and update index
+  #       env:
+  #         GITHUB_USER: ${{ github.actor }}
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
+  #       if: ${{ !cancelled() }}
+
+  build_rocm:
     runs-on: ubuntu-24.04
     permissions:
       packages: write
@@ -27,12 +61,14 @@ jobs:
           sudo rm -rf /usr/local/.ghcup
           sudo apt-get remove -y '^aspnetcore-.*' '^dotnet-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-chrome-stable firefox powershell mono-devel
 
-      # - name: Free Disk Space (Ubuntu)
-      #   uses: jlumbroso/free-disk-space@main
-      #   with:
-      #     # this might remove tools that are actually needed,
-      #     # if set to "true" but frees about 6 GB
-      #     tool-cache: false
+      - name: Install rocm
+        run: |
+          wget https://repo.radeon.com/amdgpu-install/6.4/ubuntu/noble/amdgpu-install_6.4.60400-1_all.deb
+          sudo apt install ./amdgpu-install_6.4.60400-1_all.deb
+          sudo apt update
+          sudo apt install python3-setuptools python3-wheel
+          sudo usermod -a -G render,video $LOGNAME # Add the current user to the render and video groups
+          sudo apt install rocm
 
       - uses: actions/checkout@v4
 
@@ -49,9 +85,9 @@ jobs:
           spack -e . repo add ./spack
           spack -e . install -v -j 6 --fail-fast
 
-      - name: Push packages and update index
-        env:
-          GITHUB_USER: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
-        if: ${{ !cancelled() }}
+      # - name: Push packages and update index
+      #   env:
+      #     GITHUB_USER: ${{ github.actor }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
+      #   if: ${{ !cancelled() }}
