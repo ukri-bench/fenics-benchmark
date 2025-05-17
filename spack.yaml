@@ -15,21 +15,21 @@ spack:
       - 'target=x86_64_v3'
       - 'amdgpu_target=gfx90a'
       # - 'cuda_arch=80'
-    # hip:
-    #   buildable: false
-    #   externals:
-    #   - spec: hip@6.3.3
-    #     prefix: /opt/rocm/hip
-    # rocm-core:
-    #   buildable: false
-    #   externals:
-    #   - spec: rocm-core@6.3.3
-    #     prefix: /opt/rocm/rocm-core
-    # rocthrust:
-    #   buildable: false
-    #   externals:
-    #   - spec: rocthrust@6.3.3
-    #     prefix: /opt/rocm/rocthrust
+    hip:
+      buildable: false
+      externals:
+      - spec: hip@6.3.3
+        prefix: /opt/rocm/hip
+    rocm-core:
+      buildable: false
+      externals:
+      - spec: rocm-core@6.3.3
+        prefix: /opt/rocm/rocm-core
+    rocthrust:
+      buildable: false
+      externals:
+      - spec: rocthrust@6.3.3
+        prefix: /opt/rocm/rocthrust
 
   mirrors:
     local-buildcache:
