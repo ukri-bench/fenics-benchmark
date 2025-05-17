@@ -18,17 +18,17 @@ spack:
     hip:
       buildable: false
       externals:
-      - spec: hip@6.4.6
+      - spec: hip@6.3.3
         prefix: /opt/rocm-6.4.6/hip
     rocm-core:
       buildable: false
       externals:
-      - spec: rocm-core@6.4.6
+      - spec: rocm-core@6.3.3
         prefix: /opt/rocm-6.4.6/rocm-core
     rocthrust:
       buildable: false
       externals:
-      - spec: rocthrust@6.4.6
+      - spec: rocthrust@6.3.3
         prefix: /opt/rocm-6.4.6/rocthrust
 
   mirrors:
