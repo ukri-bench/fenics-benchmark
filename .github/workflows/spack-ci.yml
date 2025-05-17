@@ -69,7 +69,7 @@ jobs:
       - name: Install
         shell: spack-bash {0}
         run: |
-          spack -e . add fenics-dolfinx@main
+          spack -e . add bench-dolfinx+cuda cuda_arch=80
           spack -e . install -j 4
 
       # - name: Build (CUDA)
