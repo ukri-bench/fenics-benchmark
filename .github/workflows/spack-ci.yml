@@ -43,6 +43,7 @@ jobs:
           sudo apt-get remove -y '^clang.*' '^llvm.*'
           sudo apt-get -y update
           sudo apt-get install -y gcc g++ gfortran  # compilers
+          sudo apt list
 
       # - name: Free Disk Space (Ubuntu)
       #   uses: jlumbroso/free-disk-space@main
