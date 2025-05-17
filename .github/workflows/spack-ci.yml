@@ -69,8 +69,8 @@ jobs:
       - name: Install
         shell: spack-bash {0}
         run: |
-          spack -e . add fenics-basix@main
-          spack -e . install
+          spack -e . add py-fenics-basix@main
+          spack -e . install -j 4
 
       # - name: Build (CUDA)
       #   shell: spack-bash {0}
