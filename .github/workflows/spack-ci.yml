@@ -84,9 +84,6 @@ jobs:
         shell: spack-bash {0}
         run: |
           spack -e . repo add ./spack
-          spack -e . add mesa
-          spack -e . concretize
-          spack -e . compilers
           spack -e . install -v -j 6 --fail-fast
         # spack -e . add bench-dolfinx+rocm amdgpu_target=gfx90a
 
