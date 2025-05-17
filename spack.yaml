@@ -1,7 +1,7 @@
 spack:
   view: /opt/view
-  # specs:
-  #   - gmake
+  specs:
+  - hip
     # - py-fenics-dolfinx@main
   # - bench-dolfinx+cuda cuda_arch=80
   # # - python@3.11
@@ -25,6 +25,3 @@ spack:
         id_variable: GITHUB_USER
         secret_variable: GITHUB_TOKEN
 
-  specs:
-  - llvm-amdgpu
-  - hip
