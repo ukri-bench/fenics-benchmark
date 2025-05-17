@@ -41,6 +41,7 @@ jobs:
           sudo rm -rf /usr/local/.ghcup
           sudo apt-get remove -y '^aspnetcore-.*' '^dotnet-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-chrome-stable firefox powershell mono-devel
           sudo apt-get remove -y '^clang.*' '^llvm.*'
+          sudo apt-get remove -y '^perl.*'
           sudo apt-get -y update
           sudo apt-get install -y gcc g++ gfortran  # compilers
 
@@ -121,9 +122,9 @@ jobs:
       #     spack env activate .
       #     python3 -c 'import dolfinx; print(dolfinx.__version__)'
 
-      - name: Push packages and update index
-        env:
-          GITHUB_USER: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
-        if: ${{ !cancelled() }}
+      # - name: Push packages and update index
+      #   env:
+      #     GITHUB_USER: ${{ github.actor }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
+      #   if: ${{ !cancelled() }}
