@@ -40,6 +40,7 @@ jobs:
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/.ghcup
           sudo apt-get remove -y '^aspnetcore-.*' '^dotnet-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-chrome-stable firefox powershell mono-devel
+          sudo apt-get remove -y '^clang.*' '^llvm.*'
           sudo apt-get -y update
           sudo apt-get install -y gcc g++ gfortran  # compilers
 
