@@ -53,12 +53,6 @@ jobs:
           apt-get install -y bzip2 curl file git gzip make patch python3-minimal tar unzip xz-utils
           apt-get install -y g++ gfortran  # compilers
 
-      # - name: Get Spack
-      #   uses: actions/checkout@v4
-      #   with:
-      #     path: ./spack-src
-      #     repository: spack/spack
-
       - name: Set up Spack
         uses: spack/setup-spack@v2
         with:
@@ -78,12 +72,19 @@ jobs:
       #     spack add bench-dolfinx+rocm amdgpu_target=gfx90a
       #     spack -v install -j 4 --fail-fast
 
-      - name: Install
+      - name: Install (HIP)
         shell: spack-bash {0}
         run: |
           spack -e . repo add ./spack
-          spack -e . add bench-dolfinx+cuda cuda_arch=80
+          spack -e . add bench-dolfinx+rocm amdgpu_target=gfx90a
           spack -e . install -v -j 4 --fail-fast
+
+      # - name: Install (CUDA)
+      #   shell: spack-bash {0}
+      #   run: |
+      #     spack -e . repo add ./spack
+      #     spack -e . add bench-dolfinx+cuda cuda_arch=80
+      #     spack -e . install -v -j 4 --fail-fast
 
       # - name: Build (CUDA)
       #   shell: spack-bash {0}
