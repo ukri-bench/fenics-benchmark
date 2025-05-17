@@ -1,5 +1,5 @@
 spack:
-  # view: /opt/view
+  view: /opt/view
   # specs:
   # # - py-fenics-dolfinx@main
   # - bench-dolfinx+cuda cuda_arch=80
