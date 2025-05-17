@@ -46,11 +46,11 @@ jobs:
       #     apt-get install -y bzip2 curl file git gzip make patch python3-minimal tar unzip xz-utils
       #     apt-get install -y g++ gfortran  # compilers
 
-      - name: Get Spack
-        uses: actions/checkout@v4
-        with:
-          path: ./spack-src
-          repository: spack/spack
+      # - name: Get Spack
+      #   uses: actions/checkout@v4
+      #   with:
+      #     path: ./spack-src
+      #     repository: spack/spack
 
       - name: Set up Spack
         uses: spack/setup-spack@v2
