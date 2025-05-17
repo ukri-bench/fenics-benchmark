@@ -87,11 +87,9 @@ jobs:
       - name: Install
         shell: spack-bash {0}
         run: |
-          export PATH=/opt/rocm/bin:$PATH
-          which hipcc
-          hipcc --help
-          spack -e . repo add ./spack
-          spack -e . install -v -j 6 --fail-fast
+          spack -e . install -v hip
+        # spack -e . repo add ./spack
+        # spack -e . install -v -j 6 --fail-fast
 
       # - name: Push packages and update index
       #   env:
