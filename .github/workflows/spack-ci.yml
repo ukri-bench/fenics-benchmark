@@ -69,7 +69,7 @@ jobs:
       - name: Install
         shell: spack-bash {0}
         run: |
-          spack -e
+          spack -e .
           spack add fenics-basix@main
           spack install
 
