@@ -12,8 +12,9 @@ spack:
 
   packages:
     all:
-      compiler: [gcc]
-      require: 'target=x86_64_v3'
+      require:
+      - '%gcc'
+      - 'target=x86_64_v3'
 
   mirrors:
     local-buildcache:
