@@ -12,6 +12,7 @@ spack:
 
   packages:
     all:
+      compiler: [gcc]
       require: 'target=x86_64_v3'
 
   mirrors:
