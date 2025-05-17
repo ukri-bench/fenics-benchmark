@@ -69,6 +69,11 @@ jobs:
           sudo apt-get install python3-setuptools python3-wheel
           sudo apt install hipcc rocm-core rocthrust
 
+      - name: Install rocm
+        run: |
+          which hipcc
+          ls /opt
+
         # sudo usermod -a -G render,video $LOGNAME # Add the current user to the render and video groups
       - uses: actions/checkout@v4
 
