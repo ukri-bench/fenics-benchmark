@@ -1,10 +1,8 @@
 spack:
   view: /opt/view
   specs:
-  - hip
-    # - py-fenics-dolfinx@main
-  # - bench-dolfinx+cuda cuda_arch=80
-  # # - python@3.11
+  - bench-dolfinx+cuda
+
   config:
     install_tree:
       root: /opt/spack
@@ -15,6 +13,7 @@ spack:
       require:
       - '%gcc'
       - 'target=x86_64_v3'
+      - 'cuda_arch=80'
 
   mirrors:
     local-buildcache:
