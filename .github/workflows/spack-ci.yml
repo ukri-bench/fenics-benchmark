@@ -23,6 +23,10 @@ on:
     #     default: "0.9.0"
     #     type: string
 
+env:
+  GITHUB_USER: ${{ github.actor }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   build:
     runs-on: ubuntu-24.04
