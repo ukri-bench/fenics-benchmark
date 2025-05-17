@@ -13,6 +13,7 @@ spack:
       require:
       - '%gcc'
       - 'target=x86_64_v3'
+      - 'amdgpu_target=gfx90a'
       # - 'cuda_arch=80'
     hip:
       buildable: false
