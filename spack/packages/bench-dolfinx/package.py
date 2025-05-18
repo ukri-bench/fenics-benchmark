@@ -13,7 +13,6 @@ class BenchDolfinx(CMakePackage, CudaPackage, ROCmPackage):
     depends_on("fenics-dolfinx@main")
     depends_on("py-fenics-ffcx@main", type="build")
     depends_on("py-fenics-ufl@main", type="build")
-    # depends_on("py-setuptools", type="build")
     depends_on("mpi")
     depends_on("hip", when="+rocm")
     depends_on("cuda", when="+cuda")
