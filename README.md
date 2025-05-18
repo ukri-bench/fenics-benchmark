@@ -1,11 +1,5 @@
 # DOLFINx benchmark
 
-## Status
-
-Under development.
-
-## Summary
-
 This benchmark tests the performance of an unstructured grid finite element
 solver. It solves the Poisson equation on a mesh of hexahedral cells
 using a matrix-free method. Low- and high-degree finite elements bases
@@ -15,11 +9,15 @@ elements makes this benchmark suitable for CPU and GPU architectures.
 Parallel communication between nodes/devices used MPI. The finite
 element implementation uses sum factorisation.
 
+## Status
+
+Under development.
+
 ## Maintainers
 
-@chrisrichardson
+[@chrisrichardson](https://www.github.com/chrisrichardson)
 
-## Background
+## Summary
 
 ### Main code/library
 
@@ -35,126 +33,77 @@ C++, CUDA, HIP, MPI.
 
 ## Building
 
-1. Add the benchmark Spack repository to a Spack environment:
-    ```bash
-    spack env create fenics-benchmark
-    spack env activate fenics-benchmark
-    spack repo add ./spack
-    ```
+### Spack
 
-2. Add a benchmark configurations to the environment.
-
-    CPU:
-    ```bash
-    spack add bench-dolfinx
-    ```
-    CUDA:
-    ```bash
-    spack add bench-dolfinx+cuda cuda_target=80
-    ```
-    where `cuda_target=80` is replaced by the appropriate CUDA target
-    version.
-
-    HIP:
-    ```bash
-    spack add bench-dolfinx+rocm amdgpu_target=gfx90a
-    ```
-    where `amdgpu_target=gfx90a` is replaced by the appropriate HIP
-    target version.
-
-3. Build
-    ```bash
-    spack install
-    ```
-
-# GPU performance test codes for FEniCSx/DOLFINx
-
-This directory contains an implementation of the Laplacian operator for
-hexahedral cells using sum factorisation, which runs on AMD on NVIDIA
-GPUs using HIP or CUDA. It can be run in parallel with MPI, and allows
-scaling by choosing the number of degrees of freedom per process.
-
-## Requirements
-
-- FEniCSx/DOLFINx installation (development version of DOLFINx
-  **required**)
-- HIP or CUDA compiler
-- Boost Program Options
-
-## Building
-
-* Use cmake to build, by creating a `build` subdirectory and using
-`cmake`, followed by `make`. It is necessary to choose between AMD and
-NVIDIA builds, see the cmake options, below.
-
-* Alternatively, use spack to build the benchmark and all dependencies,
-  using the instructions in [spack](/spack/INSTALL.md).
+A Spack package is provided in `spack/`. To view the package options:
+```bash
+spack repo add ./spack
+spack info bench-dolfinx
+```
+The benchmark builds an executable `bench_dolfinx`.
 
 ### CMake options
 
-* `-DHIP_ARCH=[target]` builds using HIP
-* `-DCUDA_ARCH=[target]` builds using CUDA
+### CMake options
+
+* `-DHIP_ARCH=[target]` builds using HIP for GPU architecture `[target]`
+* `-DCUDA_ARCH=[target]` builds using CUDA for GPU architecture `[target]`
 * `-DSCALAR_TYPE=float32` will build a 32-bit version
 
-The following `CUDA_ARCH=[target]` types have been tested for the NVIDIA
-GPUs listed:
-* `80` - A100
-* `89` - RTX6000Ada
-* `90` - GH200
+## Command line options
 
-The following `HIP_ARCH=[target]` types have been tested for the AMD
-GPUs listed:
-* `gfx90a` - MI250X
-* `gfx942` - MI300X
-* `gfx1100` - Radeon7900
-* `native` - autodetect, if GPU available during build
-
-e.g. to build for NVIDIA A100 with float32
-```
-mkdir build
-cd build
-cmake -DCUDA_ARCH=80 -DSCALAR_TYPE=float32 ..
-make
+TODO: The program should give the options with the `-h` option.
+```bash
+bench_dolfinx -h
 ```
 
-## Running tests
+Once this is the case, remove the below.
+
 
 Options for the test are:
 
 - Number of degrees-of-freedom (`--ndofs`): per MPI process
-- Order (`--order`): polynomial degree P (2-7)
-- Quadrature mode (`--qmode`): quadrature mode (0 or 1), qmode=0 has P+1
-  points in each direction, qmode=1 has P+2 points in each direction
+- Order (`--order`): polynomial degree `P` (2-7)
+- Quadrature mode (`--qmode`): quadrature mode (0 or 1), `qmode=0 `has
+  `P+1` points in each direction, `qmode=1` has `P+2` points in each
+  direction
 - Gauss quadrature (`--use_gauss`): use Gauss rather than GLL quadrature
 - Number of repetitions (`--nreps`)
 - Geometry perturbation (`--geom_perturb_fact`) Adds a random
   perturbation to the geometry, useful to check correctness
 - Matrix comparison (`--mat_comp`) Compare solution with CSR matrix
   (only useable for small `ndofs`)
-- Geometry batch size (`--batch_size`) Geometry precomputation size
-  (defaults to all precomputed)
+- Geometry batch size (`--batch_size`) Geometry precomputation batch
+  size (defaults to all precomputed)
 
+## Benchmarks
 
-## Recommended test configuration
+TODO
+
+### Correctness tests
+
+### Performance tests
+
+### Recommended test configuration
 
 Suggested options for running the test are listed below.
 
 Single-GPU basic test for correctness (small problem)
-```
+```bash
 ./mat_free --order=5 --perturb_geom_fact=0.1 --mat_comp --ndofs=5000
 ```
 
 Single-GPU performance test (10M dofs)
-```
+```bash
 ./mat_free --order=6 --ndofs=10000000 --qmode=1 --use_gauss
 ```
 
 Multi-GPU performance test (40M dofs)
-```
+```bash
 mpirun -n 4 ./mat_free --order=6 --ndofs=10000000 --qmode=1 --use_gauss
 ```
 
-## Interpreting the output
+### Interpreting the output
 
 The dolfinx timers provide information about the CPU portion of the
 code, which creates the mesh, e.g.
@@ -167,7 +116,6 @@ The norms of the input and output vectors are also provided, which can
 be checked against the matrix (CSR) implementation be using the
 `--mat_comp` option. In this case the norm of the error should be around
 machine precision, i.e. about 1e-15 for float64.
-
 
 ## License
 

@@ -5,14 +5,21 @@
 from spack.package import *
 
 class BenchDolfinx(CMakePackage, CudaPackage, ROCmPackage):
-    "A benchmark using DOLFInx."
+    "A benchmark using DOLFINx."
 
     homepage = "https://github.com/ukri-bench/ukri-bench"
     git = "https://github.com/ukri-bench/benchmark-dolfinx.git"
 
+    version("main", tag="main")
+
+    depends_on("c", type="build")
+    depends_on("cxx", type="build")
+
     depends_on("fenics-dolfinx@main")
     depends_on("py-fenics-ffcx@main", type="build")
     depends_on("py-fenics-ufl@main", type="build")
+
+    depends_on("boost+program_options")
     depends_on("mpi")
     depends_on("hip", when="+rocm")
     depends_on("cuda", when="+cuda")
@@ -21,14 +28,10 @@ class BenchDolfinx(CMakePackage, CudaPackage, ROCmPackage):
 
     variant("fp32", default=False, description="Build for float32 scalar type")
 
-    depends_on("c", type="build")
-    depends_on("cxx", type="build")
-
     with when("+rocm"):
         depends_on("rocm-core")
         depends_on("rocthrust")
 
-    version("main", tag="main")
 
     def cmake_args(self):
         args = [self.define("SCALAR_TYPE", "float32" if "+fp32" in self.spec else "float64")]
