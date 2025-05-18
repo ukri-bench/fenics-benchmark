@@ -17,7 +17,7 @@ Under development.
 
 [@chrisrichardson](https://www.github.com/chrisrichardson)
 
-## Summary
+## Overview
 
 ### Main code/library
 
@@ -31,7 +31,13 @@ CPU (in progress), GPU.
 
 C++, CUDA, HIP, MPI.
 
+### 'Dwarfs'
+
+Unstructured grids, dense linear algebra.
+
 ## Building
+
+The benchmark can be built using Spack or manually using CMake.
 
 ### Spack
 
@@ -42,10 +48,17 @@ spack info bench-dolfinx
 ```
 The benchmark builds an executable `bench_dolfinx`.
 
-### CMake options
 
-### CMake options
+### CMake
 
+The benchmark depends on the library
+[DOLFINx](https://github.com/fenics/dolfinx) and can be built using
+CMake. See the benchmark Spack package
+[file](spack/packages/bench-dolfinx/package.py) and the Spack
+dependencies for a comprehensive list of dependencies.
+
+When building the benchmark using CMake, the following
+benchmark-specific CMake options are available:
 * `-DHIP_ARCH=[target]` builds using HIP for GPU architecture `[target]`
 * `-DCUDA_ARCH=[target]` builds using CUDA for GPU architecture `[target]`
 * `-DSCALAR_TYPE=float32` will build a 32-bit version
