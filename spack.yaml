@@ -27,6 +27,10 @@ spack:
       externals:
       - spec: llvm-amdgpu@6.3.3
         prefix: /opt/rocm/llvm/
+        extra_attributes:
+          compilers:
+            c: /usr/bin/amdclang
+            cxx: /usr/bin/amdclang++
       buildable: false
     hip:
       buildable: false
