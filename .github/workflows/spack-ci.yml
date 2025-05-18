@@ -50,6 +50,9 @@ jobs:
   #       if: ${{ !cancelled() }}
 
   build_rocm:
+    strategy:
+      matrix:
+        backend: [ {runtime: rocm, driver: amdgpu_target=gfx90a} ] ]
     runs-on: ubuntu-24.04
     permissions:
       packages: write
@@ -77,7 +80,7 @@ jobs:
         shell: spack-bash {0}
         run: |
           spack -e . repo add ./spack
-          spack -e . install -j 4 --use-buildcache=package:never,dependencies:auto --add bench-dolfinx+rocm amdgpu_target=gfx90a
+          spack -e . install -j 4 --use-buildcache=package:never,dependencies:auto --add bench-dolfinx+${{ matrix.backend.runtime }} ${{ matrix.backend.driver }}
 
       - name: Push packages and update index
         env:
