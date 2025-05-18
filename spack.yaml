@@ -1,8 +1,5 @@
 spack:
   view: /opt/view
-  # specs:
-  # - bench-dolfinx+rocm
-
   config:
     install_tree:
       root: /opt/spack
@@ -11,9 +8,7 @@ spack:
   packages:
     all:
       require:
-      # - '%gcc'
       - target=x86_64_v3
-      # - amdgpu_target=gfx90a
     gcc:
       externals:
       - spec: gcc@13.3.0 languages:='c,c++,fortran'
@@ -92,31 +87,3 @@ spack:
         id_variable: GITHUB_USER
         secret_variable: GITHUB_TOKEN
 
-# spack:
-#   view: /opt/view
-#   specs:
-#   - bench-dolfinx+cuda
-
-#   config:
-#     install_tree:
-#       root: /opt/spack
-#       padded_length: 128
-
-#   packages:
-#     all:
-#       require:
-#       - '%gcc'
-#       - 'target=x86_64_v3'
-#       - 'cuda_arch=80'
-
-#   mirrors:
-#     local-buildcache:
-#       url: oci://ghcr.io/ukri-bench/spack-buildcache
-#       binary: true
-#       signed: false
-#       access_pair:
-#         id_variable: GITHUB_USER
-#         secret_variable: GITHUB_TOKEN
-
-  # repos:
-  # - /root/benchmark-dolfinx/spack

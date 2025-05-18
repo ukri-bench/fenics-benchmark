@@ -53,15 +53,9 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       packages: write
-    steps:
-      # - name: Make space on disk
-      #   run: |
-      #     sudo rm -rf /usr/local/lib/android
-      #     sudo rm -rf /opt/ghc
-      #     sudo rm -rf /usr/local/.ghcup
-      #     sudo apt-get remove -y '^aspnetcore-.*' '^dotnet-.*' 'php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-chrome-stable firefox powershell mono-devel
 
-      - name: Install rocm
+    steps:
+      - name: Install ROCm
         run: |
           wget https://repo.radeon.com/amdgpu-install/6.3.3/ubuntu/noble/amdgpu-install_6.3.60303-1_all.deb
           sudo apt-get install ./amdgpu-install_6.3.60303-1_all.deb
@@ -79,15 +73,15 @@ jobs:
           color: true         # Force color output (SPACK_COLOR=always)
           path: spack-src     # Where to clone Spack      # - name: Get Spack
 
-      - name: Install
+      - name: Build
         shell: spack-bash {0}
         run: |
           spack -e . repo add ./spack
-          spack -e . install -j 4 --add bench-dolfinx+rocm amdgpu_target=gfx90a
+          spack -e . install -j 4 --add bench-dolfinx%+rocm amdgpu_target=gfx90a
 
-      # - name: Push packages and update index
-      #   env:
-      #     GITHUB_USER: ${{ github.actor }}
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
-      #   if: ${{ !cancelled() }}
+      - name: Push packages and update index
+        env:
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: spack -e . buildcache push --base-image ubuntu:24.04 --update-index local-buildcache
+        if: ${{ !cancelled() }}
