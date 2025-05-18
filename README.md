@@ -1,11 +1,5 @@
 # DOLFINx benchmark
 
-## Status
-
-Under development.
-
-## Summary
-
 This benchmark tests the performance of an unstructured grid finite element
 solver. It solves the Poisson equation on a mesh of hexahedral cells
 using a matrix-free method. Low- and high-degree finite elements bases
@@ -15,11 +9,15 @@ elements makes this benchmark suitable for CPU and GPU architectures.
 Parallel communication between nodes/devices used MPI. The finite
 element implementation uses sum factorisation.
 
+## Status
+
+Under development.
+
 ## Maintainers
 
 [@chrisrichardson](https://www.github.com/chrisrichardson)
 
-## Background
+## Summary
 
 ### Main code/library
 
@@ -40,7 +38,7 @@ C++, CUDA, HIP, MPI.
 A Spack package is provided in `spack/`. To view the package options:
 ```bash
 spack repo add ./spack
-spack info  bench-dolfinx
+spack info bench-dolfinx
 ```
 The benchmark builds an executable `bench_dolfinx`.
 
@@ -86,26 +84,26 @@ TODO
 
 ### Performance tests
 
-## Recommended test configuration
+### Recommended test configuration
 
 Suggested options for running the test are listed below.
 
 Single-GPU basic test for correctness (small problem)
-```
+```bash
 ./mat_free --order=5 --perturb_geom_fact=0.1 --mat_comp --ndofs=5000
 ```
 
 Single-GPU performance test (10M dofs)
-```
+```bash
 ./mat_free --order=6 --ndofs=10000000 --qmode=1 --use_gauss
 ```
 
 Multi-GPU performance test (40M dofs)
-```
+```bash
 mpirun -n 4 ./mat_free --order=6 --ndofs=10000000 --qmode=1 --use_gauss
 ```
 
-## Interpreting the output
+### Interpreting the output
 
 The dolfinx timers provide information about the CPU portion of the
 code, which creates the mesh, e.g.
@@ -118,7 +116,6 @@ The norms of the input and output vectors are also provided, which can
 be checked against the matrix (CSR) implementation be using the
 `--mat_comp` option. In this case the norm of the error should be around
 machine precision, i.e. about 1e-15 for float64.
-
 
 ## License
 
