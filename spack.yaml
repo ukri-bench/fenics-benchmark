@@ -11,25 +11,73 @@ spack:
   packages:
     all:
       require:
-      - '%gcc'
-      - 'target=x86_64_v3'
-      - 'amdgpu_target=gfx90a'
-      # - 'cuda_arch=80'
+      # - '%gcc'
+      - target=x86_64_v3
+      # - amdgpu_target=gfx90a
+    gcc:
+      externals:
+      - spec: gcc@13.3.0 languages:='c,c++,fortran'
+        prefix: /usr
+        extra_attributes:
+          compilers:
+            c: /usr/bin/gcc
+            cxx: /usr/bin/g++
+            fortran: /usr/bin/gfortran
+    llvm-amdgpu:
+      externals:
+      - spec: llvm-amdgpu@6.3.3
+        prefix: /opt/rocm/llvm/
+      buildable: false
     hip:
       buildable: false
       externals:
       - spec: hip@6.3.3
-        prefix: /opt/rocm/
-    rocm-core:
+        prefix: /opt/rocm
+    hsa-rocr-dev:
       buildable: false
       externals:
-      - spec: rocm-core@6.3.3
+      - spec: hsa-rocr-dev@6.3.3
+        prefix: /opt/rocm
+    comgr:
+      buildable: false
+      externals:
+      - spec: comgr@6.3.3
+        prefix: /opt/rocm
+    hipsparse:
+      buildable: false
+      externals:
+      - spec: hipsparse@6.3.3
+        prefix: /opt/rocm
+    hipblas:
+      buildable: false
+      externals:
+      - spec: hipblas@6.3.3
         prefix: /opt/rocm/
+    rocblas:
+      buildable: false
+      externals:
+      - spec: rocblas@6.3.3
+        prefix: /opt/rocm
+    rocprim:
+      buildable: false
+      externals:
+      - spec: rocprim@6.3.3
+        prefix: /opt/rocm
     rocthrust:
       buildable: false
       externals:
       - spec: rocthrust@6.3.3
-        prefix: /opt/rocm/
+        prefix: /opt/rocm
+    rocm-core:
+      buildable: false
+      externals:
+      - spec: rocm-core@6.3.3
+        prefix: /opt/rocm
+    rocm-cmake:
+      buildable: false
+      externals:
+      - spec: rocm-cmake@6.3.3
+        prefix: /opt/rocm
 
   mirrors:
     local-buildcache:
@@ -66,3 +114,5 @@ spack:
 #         id_variable: GITHUB_USER
 #         secret_variable: GITHUB_TOKEN
 
+  # repos:
+  # - /root/benchmark-dolfinx/spack

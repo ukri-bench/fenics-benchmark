@@ -70,11 +70,6 @@ jobs:
           DEBIAN_FRONTEND=noninteractive amdgpu-install --accept-eula -y --usecase=rocmdev --no-dkms
           sudo apt-get install hipcc rocm-core rocthrust
 
-      # - name: Install rocm
-      #   run: |
-      #     ls /opt
-
-        # sudo usermod -a -G render,video $LOGNAME # Add the current user to the render and video groups
       - uses: actions/checkout@v4
 
       - name: Set up Spack
@@ -87,9 +82,7 @@ jobs:
       - name: Install
         shell: spack-bash {0}
         run: |
-          spack -e . install -v ---add hip@6.3.3
-        # spack -e . repo add ./spack
-        # spack -e . install -v -j 6 --fail-fast
+          spack -e . install -j 4 bench-dolfinx+rocm amdgpu_target=gfx90a
 
       # - name: Push packages and update index
       #   env:
