@@ -18,6 +18,11 @@ spack:
             c: /usr/bin/gcc
             cxx: /usr/bin/g++
             fortran: /usr/bin/gfortran
+    cuda:
+      buildable: false
+      externals:
+      - spec: cuda@12.9.0
+        prefix: /usr/local/cuda
     llvm-amdgpu:
       externals:
       - spec: llvm-amdgpu@6.3.3
