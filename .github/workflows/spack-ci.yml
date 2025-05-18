@@ -82,7 +82,7 @@ jobs:
       - name: Install
         shell: spack-bash {0}
         run: |
-          spack -e . install -j 4 bench-dolfinx+rocm amdgpu_target=gfx90a
+          spack -e . install -j 4 --add bench-dolfinx+rocm amdgpu_target=gfx90a
 
       # - name: Push packages and update index
       #   env:
