@@ -52,7 +52,7 @@ jobs:
   build_rocm:
     strategy:
       matrix:
-        backend: [ {runtime: rocm, driver: amdgpu_target=gfx90a} ] ]
+        backend: [ {runtime: rocm, driver: amdgpu_target=gfx90a} ]
     runs-on: ubuntu-24.04
     permissions:
       packages: write
