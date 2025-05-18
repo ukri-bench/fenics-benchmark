@@ -53,7 +53,7 @@ jobs:
     strategy:
       matrix:
         # backend: [ {runtime: rocm, driver: amdgpu_target=gfx90a} ]
-        backend: [ {runtime: cuda, driver: cuda_target=80} ]
+        backend: [ {runtime: cuda, driver: cuda_arch=80} ]
     runs-on: ubuntu-24.04
     permissions:
       packages: write
